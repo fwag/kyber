@@ -2,8 +2,9 @@
 #define AES256CTR_H
 
 #include <stddef.h>
-#include <stdint.h>
-#include <immintrin.h>
+#include <uapi/linux/types.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
 
 #define AES256CTR_NAMESPACE(s) pqcrystals_kyber_aes256ctr_avx2_##s
 

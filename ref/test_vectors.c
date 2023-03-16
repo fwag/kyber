@@ -2,7 +2,7 @@
 /* taken from SUPERCOP (https://bench.cr.yp.to)     */
 
 #include <stddef.h>
-#include <stdint.h>
+#include <uapi/linux/types.h>
 #include <stdio.h>
 #include "kem.h"
 #include "randombytes.h"

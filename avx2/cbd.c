@@ -1,5 +1,7 @@
-#include <stdint.h>
-#include <immintrin.h>
+#include <uapi/linux/types.h>
+#include <stddef.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
 #include "params.h"
 #include "cbd.h"
 
@@ -13,7 +15,7 @@
 * Arguments:   - poly *r: pointer to output polynomial
 *              - const __m256i *buf: pointer to aligned input byte array
 **************************************************/
-static void cbd2(poly * restrict r, const __m256i buf[2*KYBER_N/128])
+static void cbd2(poly * r, const __m256i buf[2*KYBER_N/128])
 {
   unsigned int i;
   __m256i f0, f1, f2, f3;
@@ -69,7 +71,7 @@ static void cbd2(poly * restrict r, const __m256i buf[2*KYBER_N/128])
 * Arguments:   - poly *r: pointer to output polynomial
 *              - const __m256i *buf: pointer to aligned input byte array
 **************************************************/
-static void cbd3(poly * restrict r, const uint8_t buf[3*KYBER_N/4+8])
+static void cbd3(poly * r, const uint8_t buf[3*KYBER_N/4+8])
 {
   unsigned int i;
   __m256i f0, f1, f2, f3;

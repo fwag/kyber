@@ -2,12 +2,13 @@
 #define SYMMETRIC_H
 
 #include <stddef.h>
-#include <stdint.h>
+#include <uapi/linux/types.h>
 #include "params.h"
 
 #ifdef KYBER_90S
 
-#include "sha2.h"
+//#include "sha2.h"
+#include <crypto/sha2.h>
 #include "aes256ctr.h"
 
 #if (KYBER_SSBYTES != 32)
@@ -19,7 +20,12 @@ typedef aes256ctr_ctx xof_state;
 #define XOF_BLOCKBYTES AES256CTR_BLOCKBYTES
 
 #define hash_h(OUT, IN, INBYTES) sha256(OUT, IN, INBYTES)
-#define hash_g(OUT, IN, INBYTES) sha512(OUT, IN, INBYTES)
+//#define hash_g(OUT, IN, INBYTES) sha512(OUT, IN, INBYTES)
+#define hash_g(OUT, IN, INBYTES) { \
+        struct shash_desc *desc; \
+        crypto_sha512_finup(desc,IN,INBYTES,OUT); \
+}
+
 #define xof_absorb(STATE, SEED, X, Y) \
         aes256ctr_init(STATE, SEED, (X) | ((uint16_t)(Y) << 8))
 #define xof_squeezeblocks(OUT, OUTBLOCKS, STATE) \

@@ -1,6 +1,7 @@
 #include "consts.h"
-.include "shuffle.inc"
-.include "fq.inc"
+#include "shuffle.inc"
+#include "fq.inc"
+#include <linux/linkage.h>
 
 .macro butterfly rl0,rl1,rl2,rl3,rh0,rh1,rh2,rh3,zl0=2,zl1=2,zh0=3,zh1=3
 vpsubw		%ymm\rl0,%ymm\rh0,%ymm12
@@ -181,6 +182,7 @@ vmovdqa		%ymm11,(64*\off+176)*2(%rdi)
 .endm
 
 .text
+SYM_FUNC_START(invntt_avx)
 .global cdecl(invntt_avx)
 cdecl(invntt_avx):
 vmovdqa         _16XQ*2(%rsi),%ymm0
@@ -191,3 +193,4 @@ intt_levels0t5	1
 intt_level6	0
 intt_level6	1
 ret
+SYM_FUNC_END(invntt_avx)

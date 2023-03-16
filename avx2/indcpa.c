@@ -1,7 +1,8 @@
 #include <stddef.h>
-#include <stdint.h>
-#include <immintrin.h>
-#include <string.h>
+#include <uapi/linux/types.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
+#include <linux/string.h>
 #include "align.h"
 #include "params.h"
 #include "indcpa.h"
@@ -12,6 +13,7 @@
 #include "rejsample.h"
 #include "symmetric.h"
 #include "randombytes.h"
+#include <linux/printk.h>
 
 /*************************************************
 * Name:        pack_pk
@@ -467,9 +469,12 @@ void indcpa_keypair(uint8_t pk[KYBER_INDCPA_PUBLICKEYBYTES],
   polyvec a[KYBER_K], e, pkpv, skpv;
 
   randombytes(buf, KYBER_SYMBYTES);
+  printk("before hash_g");
   hash_g(buf, buf, KYBER_SYMBYTES);
 
+  printk("before gen_a");
   gen_a(a, publicseed);
+  return;
 
 #ifdef KYBER_90S
 #define NOISE_NBLOCKS ((KYBER_ETA1*KYBER_N/4)/AES256CTR_BLOCKBYTES) /* Assumes divisibility */

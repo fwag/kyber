@@ -1,4 +1,5 @@
 #include "consts.h"
+#include <linux/linkage.h>
 
 .macro schoolbook off
 vmovdqa		_16XQINV*2(%rcx),%ymm0
@@ -83,6 +84,7 @@ vmovdqa		%ymm11,(64*\off+48)*2(%rdi)
 .endm
 
 .text
+SYM_FUNC_START(basemul_avx)
 .global cdecl(basemul_avx)
 cdecl(basemul_avx):
 mov		%rsp,%r8
@@ -103,3 +105,4 @@ schoolbook	3
 
 mov		%r8,%rsp
 ret
+SYM_FUNC_END(basemul_avx)

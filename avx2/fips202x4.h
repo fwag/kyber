@@ -2,8 +2,9 @@
 #define FIPS202X4_H
 
 #include <stddef.h>
-#include <stdint.h>
-#include <immintrin.h>
+#include <uapi/linux/types.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
 
 #define FIPS202X4_NAMESPACE(s) pqcrystals_kyber_fips202x4_avx2_##s
 

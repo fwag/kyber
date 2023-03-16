@@ -1,7 +1,8 @@
 #ifndef KEX_H
 #define KEX_H
 
-#include <stdint.h>
+#include <uapi/linux/types.h>
+#include <linux/types.h>
 #include "params.h"
 
 #define KEX_UAKE_SENDABYTES (KYBER_PUBLICKEYBYTES + KYBER_CIPHERTEXTBYTES)

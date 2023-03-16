@@ -1,7 +1,7 @@
 #ifndef REJSAMPLE_H
 #define REJSAMPLE_H
 
-#include <stdint.h>
+#include <uapi/linux/types.h>
 #include "params.h"
 #include "symmetric.h"
 

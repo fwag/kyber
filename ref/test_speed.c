@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <stdio.h>
 #include "kem.h"
 #include "kex.h"

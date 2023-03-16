@@ -1,7 +1,8 @@
 #include <stddef.h>
-#include <stdint.h>
-#include <immintrin.h>
-#include <string.h>
+#include <uapi/linux/types.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
+#include <linux/string.h>
 #include "fips202.h"
 #include "fips202x4.h"
 

@@ -1,6 +1,6 @@
 #include <stddef.h>
-#include <stdint.h>
-#include <stdlib.h>
+#include <uapi/linux/types.h>
+//#include <stdlib.h>
 #include <stdio.h>
 #include "cpucycles.h"
 #include "speed_print.h"

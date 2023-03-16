@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <uapi/linux/types.h>
 #include "kex.h"
 #include "kem.h"
 #include "symmetric.h"

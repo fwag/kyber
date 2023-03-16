@@ -1,7 +1,7 @@
 #ifndef POLYVEC_H
 #define POLYVEC_H
 
-#include <stdint.h>
+#include <uapi/linux/types.h>
 #include "params.h"
 #include "poly.h"
 

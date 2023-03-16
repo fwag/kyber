@@ -14,11 +14,12 @@ http://creativecommons.org/publicdomain/zero/1.0/
 */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+//#include <stdlib.h>
+#include <linux/string.h>
 #include <smmintrin.h>
 #include <wmmintrin.h>
-#include <immintrin.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
 #include <emmintrin.h>
 #include "KeccakP-align.h"
 #include "KeccakP-1600-times4-SnP.h"

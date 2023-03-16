@@ -1,7 +1,7 @@
 #ifndef API_H
 #define API_H
 
-#include <stdint.h>
+#include <uapi/linux/types.h>
 
 #define pqcrystals_kyber512_SECRETKEYBYTES 1632
 #define pqcrystals_kyber512_PUBLICKEYBYTES 800

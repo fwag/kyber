@@ -1,6 +1,6 @@
 #include <stddef.h>
-#include <stdint.h>
-#include <string.h>
+#include <uapi/linux/types.h>
+#include <linux/string.h>
 #include "params.h"
 #include "kem.h"
 #include "indcpa.h"
@@ -25,10 +25,12 @@ int crypto_kem_keypair(uint8_t *pk,
                        uint8_t *sk)
 {
   indcpa_keypair(pk, sk);
+  #if 0
   memcpy(sk+KYBER_INDCPA_SECRETKEYBYTES, pk, KYBER_INDCPA_PUBLICKEYBYTES);
   hash_h(sk+KYBER_SECRETKEYBYTES-2*KYBER_SYMBYTES, pk, KYBER_PUBLICKEYBYTES);
   /* Value z for pseudo-random output on reject */
   randombytes(sk+KYBER_SECRETKEYBYTES-KYBER_SYMBYTES, KYBER_SYMBYTES);
+  #endif
   return 0;
 }
 

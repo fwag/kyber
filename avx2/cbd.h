@@ -1,8 +1,9 @@
 #ifndef CBD_H
 #define CBD_H
 
-#include <stdint.h>
-#include <immintrin.h>
+#include <uapi/linux/types.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
 #include "params.h"
 #include "poly.h"
 

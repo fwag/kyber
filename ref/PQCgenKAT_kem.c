@@ -6,8 +6,8 @@
 //  Copyright © 2017 Bassham, Lawrence E (Fed). All rights reserved.
 //
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+//#include <stdlib.h>
+#include <linux/string.h>
 #include <ctype.h>
 #include "rng.h"
 #include "kem.h"

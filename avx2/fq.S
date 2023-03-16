@@ -1,8 +1,11 @@
 #include "consts.h"
-.include "fq.inc"
+#include "fq.inc"
+#include <linux/linkage.h>
+
 
 .text
-reduce128_avx:
+SYM_FUNC_START(reduce128_avx)
+#reduce128_avx:
 #load
 vmovdqa		(%rdi),%ymm2
 vmovdqa		32(%rdi),%ymm3
@@ -33,7 +36,9 @@ vmovdqa		%ymm8,192(%rdi)
 vmovdqa		%ymm9,224(%rdi)
 
 ret
+SYM_FUNC_END(reduce128_avx)
 
+SYM_FUNC_START(reduce_avx)
 .global cdecl(reduce_avx)
 cdecl(reduce_avx):
 #consts
@@ -75,7 +80,9 @@ vmovdqa		%ymm9,192(%rdi)
 vmovdqa		%ymm10,224(%rdi)
 
 ret
+SYM_FUNC_END(reduce_avx)
 
+SYM_FUNC_START(tomont_avx)
 .global cdecl(tomont_avx)
 cdecl(tomont_avx):
 #consts
@@ -86,3 +93,4 @@ call		tomont128_avx
 add		$256,%rdi
 call		tomont128_avx
 ret
+SYM_FUNC_END(tomont_avx)

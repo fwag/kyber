@@ -5,7 +5,7 @@
 //  Copyright © 2017 Bassham, Lawrence E (Fed). All rights reserved.
 //
 
-#include <string.h>
+#include <linux/string.h>
 #include "rng.h"
 #include <openssl/conf.h>
 #include <openssl/evp.h>

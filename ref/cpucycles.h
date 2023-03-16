@@ -1,7 +1,7 @@
 #ifndef CPUCYCLES_H
 #define CPUCYCLES_H
 
-#include <stdint.h>
+#include <uapi/linux/types.h>
 
 #ifdef USE_RDPMC  /* Needs echo 2 > /sys/devices/cpu/rdpmc */
 

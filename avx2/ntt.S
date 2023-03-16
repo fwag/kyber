@@ -1,5 +1,6 @@
 #include "consts.h"
-.include "shuffle.inc"
+#include "shuffle.inc"
+#include <linux/linkage.h>
 
 .macro mul rh0,rh1,rh2,rh3,zl0=15,zl1=15,zh0=2,zh1=2
 vpmullw		%ymm\zl0,%ymm\rh0,%ymm12
@@ -176,6 +177,7 @@ vmovdqa		%ymm11,(128*\off+112)*2(%rdi)
 .endm
 
 .text
+SYM_FUNC_START(ntt_avx)
 .global cdecl(ntt_avx)
 cdecl(ntt_avx):
 vmovdqa		_16XQ*2(%rsi),%ymm0
@@ -187,3 +189,4 @@ levels1t6	0
 levels1t6	1
 
 ret
+SYM_FUNC_END(ntt_avx)

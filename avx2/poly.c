@@ -1,6 +1,8 @@
-#include <stdint.h>
-#include <immintrin.h>
-#include <string.h>
+#include <uapi/linux/types.h>
+#include <stddef.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
+#include <linux/string.h>
 #include "align.h"
 #include "params.h"
 #include "poly.h"
@@ -23,7 +25,7 @@
 *              - const poly *a: pointer to input polynomial
 **************************************************/
 #if (KYBER_POLYCOMPRESSEDBYTES == 96)
-void poly_compress(uint8_t r[96], const poly * restrict a)
+void poly_compress(uint8_t r[96], __global const poly * restrict a)
 {
   unsigned int i;
   __m256i f0, f1, f2, f3;
@@ -83,7 +85,7 @@ void poly_compress(uint8_t r[96], const poly * restrict a)
 *              - const uint8_t *a: pointer to input byte array
 *                                  (of length KYBER_POLYCOMPRESSEDBYTES bytes)
 **************************************************/
-void poly_decompress(poly * restrict r, const uint8_t a[96])
+void poly_decompress(__global poly * restrict r, const uint8_t a[96])
 {
   unsigned int i;
   __m128i t;
@@ -110,7 +112,7 @@ void poly_decompress(poly * restrict r, const uint8_t a[96])
 }
 
 #elif (KYBER_POLYCOMPRESSEDBYTES == 128)
-void poly_compress(uint8_t r[128], const poly * restrict a)
+void poly_compress(uint8_t r[128], const poly * a)
 {
   unsigned int i;
   __m256i f0, f1, f2, f3;
@@ -147,7 +149,7 @@ void poly_compress(uint8_t r[128], const poly * restrict a)
   }
 }
 
-void poly_decompress(poly * restrict r, const uint8_t a[128])
+void poly_decompress( poly * r, const uint8_t a[128])
 {
   unsigned int i;
   __m128i t;
@@ -170,7 +172,7 @@ void poly_decompress(poly * restrict r, const uint8_t a[128])
 }
 
 #elif (KYBER_POLYCOMPRESSEDBYTES == 160)
-void poly_compress(uint8_t r[160], const poly * restrict a)
+void poly_compress(uint8_t r[160], __global const poly * restrict a)
 {
   unsigned int i;
   __m256i f0, f1;
@@ -207,7 +209,7 @@ void poly_compress(uint8_t r[160], const poly * restrict a)
   }
 }
 
-void poly_decompress(poly * restrict r, const uint8_t a[160])
+void poly_decompress(__global poly * restrict r, const uint8_t a[160])
 {
   unsigned int i;
   __m128i t;
@@ -278,7 +280,7 @@ void poly_frombytes(poly *r, const uint8_t a[KYBER_POLYBYTES])
 * Arguments:   - poly *r: pointer to output polynomial
 *              - const uint8_t *msg: pointer to input message
 **************************************************/
-void poly_frommsg(poly * restrict r, const uint8_t msg[KYBER_INDCPA_MSGBYTES])
+void poly_frommsg( poly * r, const uint8_t msg[KYBER_INDCPA_MSGBYTES])
 {
 #if (KYBER_INDCPA_MSGBYTES != 32)
 #error "KYBER_INDCPA_MSGBYTES must be equal to 32!"
@@ -334,7 +336,7 @@ void poly_frommsg(poly * restrict r, const uint8_t msg[KYBER_INDCPA_MSGBYTES])
 * Arguments:   - uint8_t *msg: pointer to output message
 *              - poly *a: pointer to input polynomial
 **************************************************/
-void poly_tomsg(uint8_t msg[KYBER_INDCPA_MSGBYTES], const poly * restrict a)
+void poly_tomsg(uint8_t msg[KYBER_INDCPA_MSGBYTES], const poly * a)
 {
   unsigned int i;
   uint32_t small;

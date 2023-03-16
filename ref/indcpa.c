@@ -1,5 +1,5 @@
 #include <stddef.h>
-#include <stdint.h>
+//#include <stdint.h>
 #include "params.h"
 #include "indcpa.h"
 #include "polyvec.h"
@@ -7,6 +7,7 @@
 #include "ntt.h"
 #include "symmetric.h"
 #include "randombytes.h"
+#include "cbd.h"
 
 /*************************************************
 * Name:        pack_pk
@@ -219,6 +220,7 @@ void indcpa_keypair(uint8_t pk[KYBER_INDCPA_PUBLICKEYBYTES],
 
   for(i=0;i<KYBER_K;i++)
     poly_getnoise_eta1(&skpv.vec[i], noiseseed, nonce++);
+
   for(i=0;i<KYBER_K;i++)
     poly_getnoise_eta1(&e.vec[i], noiseseed, nonce++);
 

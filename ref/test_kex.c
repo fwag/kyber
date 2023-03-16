@@ -1,6 +1,6 @@
-#include <stdint.h>
+#include <uapi/linux/types.h>
 #include <stdio.h>
-#include <string.h>
+#include <linux/string.h>
 
 #include "kem.h"
 #include "kex.h"

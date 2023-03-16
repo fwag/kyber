@@ -1,8 +1,11 @@
 #ifndef ALIGN_H
 #define ALIGN_H
 
-#include <stdint.h>
-#include <immintrin.h>
+#include <uapi/linux/types.h>
+#include <linux/types.h>
+//#include <immintrin.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
 
 #define ALIGNED_UINT8(N)        \
     union {                     \

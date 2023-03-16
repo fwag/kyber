@@ -1,6 +1,7 @@
 #include "consts.h"
-.include "fq.inc"
-.include "shuffle.inc"
+#include "fq.inc"
+#include "shuffle.inc"
+#include <linux/linkage.h>
 
 /*
 nttpack_avx:
@@ -91,14 +92,17 @@ vmovdqa		%ymm11,224(%rdi)
 
 ret
 
+SYM_FUNC_START(nttunpack_avx)
 .global cdecl(nttunpack_avx)
 cdecl(nttunpack_avx):
 call		nttunpack128_avx
 add		$256,%rdi
 call		nttunpack128_avx
 ret
+SYM_FUNC_END(nttunpack_avx)
 
-ntttobytes128_avx:
+SYM_FUNC_START(ntttobytes128_avx)
+#ntttobytes128_avx:
 #load
 vmovdqa		(%rsi),%ymm5
 vmovdqa		32(%rsi),%ymm6
@@ -167,7 +171,9 @@ vmovdqu		%ymm3,128(%rdi)
 vmovdqu		%ymm9,160(%rdi)
 
 ret
+SYM_FUNC_END(ntttobytes128_avx)
 
+SYM_FUNC_START(ntttobytes_avx)
 .global cdecl(ntttobytes_avx)
 cdecl(ntttobytes_avx):
 #consts
@@ -243,7 +249,9 @@ vmovdqa		%ymm15,192(%rdi)
 vmovdqa		%ymm1,224(%rdi)
 
 ret
+SYM_FUNC_END(ntttobytes_avx)
 
+SYM_FUNC_START(nttfrombytes_avx)
 .global cdecl(nttfrombytes_avx)
 cdecl(nttfrombytes_avx):
 #consts
@@ -253,3 +261,4 @@ add		$256,%rdi
 add		$192,%rsi
 call		nttfrombytes128_avx
 ret
+SYM_FUNC_END(nttfrombytes_avx)

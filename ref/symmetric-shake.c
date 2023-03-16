@@ -1,6 +1,6 @@
 #include <stddef.h>
-#include <stdint.h>
-#include <string.h>
+#include <uapi/linux/types.h>
+#include <linux/string.h>
 #include "params.h"
 #include "symmetric.h"
 #include "fips202.h"

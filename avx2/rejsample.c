@@ -1,6 +1,8 @@
-#include <stdint.h>
-#include <immintrin.h>
-#include <string.h>
+#include <uapi/linux/types.h>
+#include <stddef.h>
+#define _MM_MALLOC_H_INCLUDED
+#include <x86intrin.h>
+#include <linux/string.h>
 #include "params.h"
 #include "consts.h"
 #include "rejsample.h"
@@ -271,7 +273,7 @@ static const uint8_t idx[256][8] = {
 #define _mm256_cmpge_epu16(a, b) _mm256_cmpeq_epi16(_mm256_max_epu16(a, b), a)
 #define _mm_cmpge_epu16(a, b) _mm_cmpeq_epi16(_mm_max_epu16(a, b), a)
 
-unsigned int rej_uniform_avx(int16_t * restrict r, const uint8_t *buf)
+unsigned int rej_uniform_avx(int16_t * r, const uint8_t *buf)
 {
   unsigned int ctr, pos;
   uint16_t val0, val1;

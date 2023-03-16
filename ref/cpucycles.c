@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <uapi/linux/types.h>
 #include "cpucycles.h"
 
 uint64_t cpucycles_overhead(void) {

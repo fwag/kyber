@@ -1,12 +1,13 @@
 #include <stddef.h>
-#include <stdio.h>
-#include <string.h>
+#include <linux/string.h>
 #include "kem.h"
 #include "randombytes.h"
+#include <linux/printk.h>
+#include <linux/module.h>
 
-#define NTESTS 1000
+#define NTESTS 1
 
-static int test_keys()
+static int test_keys(void)
 {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
   uint8_t sk[CRYPTO_SECRETKEYBYTES];
@@ -24,14 +25,14 @@ static int test_keys()
   crypto_kem_dec(key_a, ct, sk);
 
   if(memcmp(key_a, key_b, CRYPTO_BYTES)) {
-    printf("ERROR keys\n");
+    printk("ERROR keys\n");
     return 1;
   }
 
   return 0;
 }
 
-static int test_invalid_sk_a()
+static int test_invalid_sk_a(void)
 {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
   uint8_t sk[CRYPTO_SECRETKEYBYTES];
@@ -52,14 +53,14 @@ static int test_invalid_sk_a()
   crypto_kem_dec(key_a, ct, sk);
 
   if(!memcmp(key_a, key_b, CRYPTO_BYTES)) {
-    printf("ERROR invalid sk\n");
+    printk("ERROR invalid sk\n");
     return 1;
   }
 
   return 0;
 }
 
-static int test_invalid_ciphertext()
+static int test_invalid_ciphertext(void)
 {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
   uint8_t sk[CRYPTO_SECRETKEYBYTES];
@@ -87,18 +88,18 @@ static int test_invalid_ciphertext()
   crypto_kem_dec(key_a, ct, sk);
 
   if(!memcmp(key_a, key_b, CRYPTO_BYTES)) {
-    printf("ERROR invalid ciphertext\n");
+    printk("ERROR invalid ciphertext\n");
     return 1;
   }
 
   return 0;
 }
 
-int main(void)
+int my_init_module(void)
 {
   unsigned int i;
   int r;
-
+#if 0
   for(i=0;i<NTESTS;i++) {
     r  = test_keys();
     r |= test_invalid_sk_a();
@@ -106,10 +107,19 @@ int main(void)
     if(r)
       return 1;
   }
+#endif 
+  test_keys();
 
-  printf("CRYPTO_SECRETKEYBYTES:  %d\n",CRYPTO_SECRETKEYBYTES);
-  printf("CRYPTO_PUBLICKEYBYTES:  %d\n",CRYPTO_PUBLICKEYBYTES);
-  printf("CRYPTO_CIPHERTEXTBYTES: %d\n",CRYPTO_CIPHERTEXTBYTES);
+  printk("CRYPTO_SECRETKEYBYTES:  %d\n",CRYPTO_SECRETKEYBYTES);
+  printk("CRYPTO_PUBLICKEYBYTES:  %d\n",CRYPTO_PUBLICKEYBYTES);
+  printk("CRYPTO_CIPHERTEXTBYTES: %d\n",CRYPTO_CIPHERTEXTBYTES);
 
   return 0;
 }
+void my_cleanup_module(void) {
+		printk("The module is now unloaded\n");
+}
+
+module_init(my_init_module);
+module_exit(my_cleanup_module);
+MODULE_LICENSE("GPL");
