@@ -7,7 +7,6 @@
 #include "ntt.h"
 #include "symmetric.h"
 #include "randombytes.h"
-#include "cbd.h"
 
 /*************************************************
 * Name:        pack_pk

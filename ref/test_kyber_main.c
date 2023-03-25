@@ -5,8 +5,6 @@
 #include <linux/printk.h>
 #include <linux/module.h>
 
-//#include "fips202.h"
-
 #define NTESTS 1000
 
 static int test_keys(void)
@@ -16,23 +14,6 @@ static int test_keys(void)
   uint8_t ct[CRYPTO_CIPHERTEXTBYTES];
   uint8_t key_a[CRYPTO_BYTES];
   uint8_t key_b[CRYPTO_BYTES];
-
-  #if 0
-  int i;
-  uint8_t h[64];
-  kyber_sha3_512(h,"suka",4);
-  printk("sha3_512: ");
-  for (i=0; i < 64; i++)
-    printk(KERN_CONT "%02X", h[i]);
-  printk("");
-
-  //void shake256(uint8_t *out, size_t outlen, const uint8_t *in, size_t inlen)  
-  shake256(h, 64, "minkia", 6);
-  printk("shake256: ");
-  for (i=0; i < 64; i++)
-    printk(KERN_CONT "%02X", h[i]);
-  printk("");
-#endif
 
   //Alice generates a public key
   crypto_kem_keypair(pk, sk);
@@ -125,7 +106,6 @@ int my_init_module(void)
     if(r)
       return 1;
   }
-  //test_keys();
 
   printk("CRYPTO_SECRETKEYBYTES:  %d\n",CRYPTO_SECRETKEYBYTES);
   printk("CRYPTO_PUBLICKEYBYTES:  %d\n",CRYPTO_PUBLICKEYBYTES);

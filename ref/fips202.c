@@ -10,7 +10,7 @@
 #define ROL(a, offset) ((a << offset) ^ (a >> (64-offset)))
 
 /*************************************************
-* Name:        ck_load64
+* Name:        load64
 *
 * Description: Load 8 bytes into uint64_t in little-endian order
 *
@@ -18,7 +18,7 @@
 *
 * Returns the loaded 64-bit unsigned integer
 **************************************************/
-static uint64_t ck_load64(const uint8_t x[8]) {
+static uint64_t load64(const uint8_t x[8]) {
   unsigned int i;
   uint64_t r = 0;
 
@@ -29,14 +29,14 @@ static uint64_t ck_load64(const uint8_t x[8]) {
 }
 
 /*************************************************
-* Name:        ck_store64
+* Name:        store64
 *
 * Description: Store a 64-bit integer to array of 8 bytes in little-endian order
 *
 * Arguments:   - uint8_t *x: pointer to the output byte array (allocated)
 *              - uint64_t u: input 64-bit unsigned integer
 **************************************************/
-static void ck_store64(uint8_t x[8], uint64_t u) {
+static void store64(uint8_t x[8], uint64_t u) {
   unsigned int i;
 
   for(i=0;i<8;i++)
@@ -470,7 +470,7 @@ static void keccak_absorb_once(uint64_t s[25],
 
   while(inlen >= r) {
     for(i=0;i<r/8;i++)
-      s[i] ^= ck_load64(in+8*i);
+      s[i] ^= load64(in+8*i);
     in += r;
     inlen -= r;
     KeccakF1600_StatePermute(s);
@@ -506,7 +506,7 @@ static void keccak_squeezeblocks(uint8_t *out,
   while(nblocks) {
     KeccakF1600_StatePermute(s);
     for(i=0;i<r/8;i++)
-      ck_store64(out+8*i, s[i]);
+      store64(out+8*i, s[i]);
     out += r;
     nblocks -= 1;
   }
@@ -749,11 +749,11 @@ void sha3_256(uint8_t h[32], const uint8_t *in, size_t inlen)
   keccak_absorb_once(s, SHA3_256_RATE, in, inlen, 0x06);
   KeccakF1600_StatePermute(s);
   for(i=0;i<4;i++)
-    ck_store64(h+8*i,s[i]);
+    store64(h+8*i,s[i]);
 }
 
 /*************************************************
-* Name:        kyber_sha3_512
+* Name:        sha3_512
 *
 * Description: SHA3-512 with non-incremental API
 *
@@ -761,7 +761,7 @@ void sha3_256(uint8_t h[32], const uint8_t *in, size_t inlen)
 *              - const uint8_t *in: pointer to input
 *              - size_t inlen: length of input in bytes
 **************************************************/
-void kyber_sha3_512(uint8_t h[64], const uint8_t *in, size_t inlen)
+void sha3_512(uint8_t h[64], const uint8_t *in, size_t inlen)
 {
   unsigned int i;
   uint64_t s[25];
@@ -769,5 +769,5 @@ void kyber_sha3_512(uint8_t h[64], const uint8_t *in, size_t inlen)
   keccak_absorb_once(s, SHA3_512_RATE, in, inlen, 0x06);
   KeccakF1600_StatePermute(s);
   for(i=0;i<8;i++)
-    ck_store64(h+8*i,s[i]);
+    store64(h+8*i,s[i]);
 }
