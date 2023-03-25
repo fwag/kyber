@@ -203,6 +203,8 @@ void gen_matrix(polyvec *a, const uint8_t seed[KYBER_SYMBYTES], int transposed)
 *              - uint8_t *sk: pointer to output private key
                               (of length KYBER_INDCPA_SECRETKEYBYTES bytes)
 **************************************************/
+static polyvec pv_a[KYBER_K], pv_e, pv_pkpv, pv_skpv, pv_sp, pv_ep, pv_at[KYBER_K], pv_b;
+
 void indcpa_keypair(uint8_t pk[KYBER_INDCPA_PUBLICKEYBYTES],
                     uint8_t sk[KYBER_INDCPA_SECRETKEYBYTES])
 {
@@ -211,33 +213,33 @@ void indcpa_keypair(uint8_t pk[KYBER_INDCPA_PUBLICKEYBYTES],
   const uint8_t *publicseed = buf;
   const uint8_t *noiseseed = buf+KYBER_SYMBYTES;
   uint8_t nonce = 0;
-  polyvec a[KYBER_K], e, pkpv, skpv;
+  //polyvec a[KYBER_K], e, pkpv, skpv;
 
   randombytes(buf, KYBER_SYMBYTES);
   hash_g(buf, buf, KYBER_SYMBYTES);
 
-  gen_a(a, publicseed);
+  gen_a(pv_a, publicseed);
 
+  for(i=0;i<KYBER_K;i++) 
+    poly_getnoise_eta1(&pv_skpv.vec[i], noiseseed, nonce++);
+    
   for(i=0;i<KYBER_K;i++)
-    poly_getnoise_eta1(&skpv.vec[i], noiseseed, nonce++);
+    poly_getnoise_eta1(&pv_e.vec[i], noiseseed, nonce++);
 
-  for(i=0;i<KYBER_K;i++)
-    poly_getnoise_eta1(&e.vec[i], noiseseed, nonce++);
-
-  polyvec_ntt(&skpv);
-  polyvec_ntt(&e);
+  polyvec_ntt(&pv_skpv);
+  polyvec_ntt(&pv_e);
 
   // matrix-vector multiplication
   for(i=0;i<KYBER_K;i++) {
-    polyvec_basemul_acc_montgomery(&pkpv.vec[i], &a[i], &skpv);
-    poly_tomont(&pkpv.vec[i]);
+    polyvec_basemul_acc_montgomery(&pv_pkpv.vec[i], &pv_a[i], &pv_skpv);
+    poly_tomont(&pv_pkpv.vec[i]);
   }
 
-  polyvec_add(&pkpv, &pkpv, &e);
-  polyvec_reduce(&pkpv);
+  polyvec_add(&pv_pkpv, &pv_pkpv, &pv_e);
+  polyvec_reduce(&pv_pkpv);
 
-  pack_sk(sk, &skpv);
-  pack_pk(pk, &pkpv, publicseed);
+  pack_sk(sk, &pv_skpv);
+  pack_pk(pk, &pv_pkpv, publicseed);
 }
 
 /*************************************************
@@ -264,37 +266,37 @@ void indcpa_enc(uint8_t c[KYBER_INDCPA_BYTES],
   unsigned int i;
   uint8_t seed[KYBER_SYMBYTES];
   uint8_t nonce = 0;
-  polyvec sp, pkpv, ep, at[KYBER_K], b;
+  //polyvec sp, pkpv, ep, at[KYBER_K], b;
   poly v, k, epp;
 
-  unpack_pk(&pkpv, seed, pk);
+  unpack_pk(&pv_pkpv, seed, pk);
   poly_frommsg(&k, m);
-  gen_at(at, seed);
+  gen_at(pv_at, seed);
 
   for(i=0;i<KYBER_K;i++)
-    poly_getnoise_eta1(sp.vec+i, coins, nonce++);
+    poly_getnoise_eta1(pv_sp.vec+i, coins, nonce++);
   for(i=0;i<KYBER_K;i++)
-    poly_getnoise_eta2(ep.vec+i, coins, nonce++);
+    poly_getnoise_eta2(pv_ep.vec+i, coins, nonce++);
   poly_getnoise_eta2(&epp, coins, nonce++);
 
-  polyvec_ntt(&sp);
+  polyvec_ntt(&pv_sp);
 
   // matrix-vector multiplication
   for(i=0;i<KYBER_K;i++)
-    polyvec_basemul_acc_montgomery(&b.vec[i], &at[i], &sp);
+    polyvec_basemul_acc_montgomery(&pv_b.vec[i], &pv_at[i], &pv_sp);
 
-  polyvec_basemul_acc_montgomery(&v, &pkpv, &sp);
+  polyvec_basemul_acc_montgomery(&v, &pv_pkpv, &pv_sp);
 
-  polyvec_invntt_tomont(&b);
+  polyvec_invntt_tomont(&pv_b);
   poly_invntt_tomont(&v);
 
-  polyvec_add(&b, &b, &ep);
+  polyvec_add(&pv_b, &pv_b, &pv_ep);
   poly_add(&v, &v, &epp);
   poly_add(&v, &v, &k);
-  polyvec_reduce(&b);
+  polyvec_reduce(&pv_b);
   poly_reduce(&v);
 
-  pack_ciphertext(c, &b, &v);
+  pack_ciphertext(c, &pv_b, &v);
 }
 
 /*************************************************

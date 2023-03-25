@@ -57,9 +57,9 @@ void randombytes(uint8_t *out, size_t outlen) {
     outlen -= ret;
   }
   #endif
-  //wait_for_random_bytes();
-  //get_random_bytes_wait(out, outlen);
-  memset(out, 0, outlen);
+  wait_for_random_bytes();
+  get_random_bytes_wait(out, outlen);
+  //memset(out, 0, outlen);
 }
 #else
 void randombytes(uint8_t *out, size_t outlen) {
@@ -86,8 +86,8 @@ void randombytes(uint8_t *out, size_t outlen) {
     outlen -= ret;
   }
   #endif
-  //wait_for_random_bytes();
-  //get_random_bytes_wait (out, outlen);
-  memset(out, 0, outlen);
+  wait_for_random_bytes();
+  get_random_bytes_wait (out, outlen);
+  //memset(out, 0, outlen);
 }
 #endif

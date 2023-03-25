@@ -766,7 +766,7 @@ void kyber_sha3_512(uint8_t h[64], const uint8_t *in, size_t inlen)
   unsigned int i;
   uint64_t s[25];
 
-  //keccak_absorb_once(s, SHA3_512_RATE, in, inlen, 0x06);
+  keccak_absorb_once(s, SHA3_512_RATE, in, inlen, 0x06);
   KeccakF1600_StatePermute(s);
   for(i=0;i<8;i++)
     ck_store64(h+8*i,s[i]);
