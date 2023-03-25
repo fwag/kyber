@@ -10,7 +10,7 @@
 #include "consts.h"
 
 #if (KYBER_POLYVECCOMPRESSEDBYTES == (KYBER_K * 320))
-static void poly_compress10(uint8_t r[320], const poly *  a)
+static void poly_compress10(uint8_t r[320], const poly * restrict a)
 {
   unsigned int i;
   __m256i f0, f1, f2;
@@ -49,7 +49,7 @@ static void poly_compress10(uint8_t r[320], const poly *  a)
   }
 }
 
-static void poly_decompress10(poly *  r, const uint8_t a[320+12])
+static void poly_decompress10(poly * restrict r, const uint8_t a[320+12])
 {
   unsigned int i;
   __m256i f;
@@ -74,7 +74,7 @@ static void poly_decompress10(poly *  r, const uint8_t a[320+12])
 }
 
 #elif (KYBER_POLYVECCOMPRESSEDBYTES == (KYBER_K * 352))
-static void poly_compress11(uint8_t r[352+2], const poly *  a)
+static void poly_compress11(uint8_t r[352+2], const poly * restrict a)
 {
   unsigned int i;
   __m256i f0, f1, f2;
@@ -117,7 +117,7 @@ static void poly_compress11(uint8_t r[352+2], const poly *  a)
   }
 }
 
-static void poly_decompress11(poly *  r, const uint8_t a[352+10])
+static void poly_decompress11(poly * restrict r, const uint8_t a[352+10])
 {
   unsigned int i;
   __m256i f;

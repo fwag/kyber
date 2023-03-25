@@ -12,7 +12,6 @@
 
 static inline void aesni_encrypt4(uint8_t out[64], __m128i *n, const __m128i rkeys[16])
 {
-  int i;
   __m128i f,f0,f1,f2,f3;
   const __m128i idx = _mm_set_epi8(8,9,10,11,12,13,14,15,7,6,5,4,3,2,1,0);
 
@@ -35,7 +34,7 @@ static inline void aesni_encrypt4(uint8_t out[64], __m128i *n, const __m128i rke
   f2 = _mm_xor_si128(f2,f);
   f3 = _mm_xor_si128(f3,f);
 
-  for (i = 1; i < 14; i++) {
+  for (int i = 1; i < 14; i++) {
     f  = _mm_load_si128(&rkeys[i]);
     f0 = _mm_aesenc_si128(f0,f);
     f1 = _mm_aesenc_si128(f1,f);

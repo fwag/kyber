@@ -54,7 +54,7 @@ int verify(const uint8_t *a, const uint8_t *b, size_t len)
 *              size_t len: Amount of bytes to be copied
 *              uint8_t b: Condition bit; has to be in {0,1}
 **************************************************/
-void cmov(uint8_t * r, const uint8_t *x, size_t len, uint8_t b)
+void cmov(uint8_t * restrict r, const uint8_t *x, size_t len, uint8_t b)
 {
   size_t i;
   __m256i xvec, rvec, bvec;

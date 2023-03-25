@@ -9,6 +9,7 @@
 
 //#include "sha2.h"
 #include <crypto/sha2.h>
+#include <crypto/sha512_base.h>
 #include "aes256ctr.h"
 
 #if (KYBER_SSBYTES != 32)

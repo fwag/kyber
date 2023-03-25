@@ -15,7 +15,7 @@
 * Arguments:   - poly *r: pointer to output polynomial
 *              - const __m256i *buf: pointer to aligned input byte array
 **************************************************/
-static void cbd2(poly * r, const __m256i buf[2*KYBER_N/128])
+static void cbd2(poly * restrict r, const __m256i buf[2*KYBER_N/128])
 {
   unsigned int i;
   __m256i f0, f1, f2, f3;

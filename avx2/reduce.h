@@ -7,8 +7,8 @@
 #include <asm/simd.h>
 
 //#define reduce_avx KYBER_NAMESPACE(reduce_avx)
-asmlinkage void reduce_avx(__m256i *r, const __m256i *qdata);
+void reduce_avx(__m256i *r, const __m256i *qdata);
 //#define tomont_avx KYBER_NAMESPACE(tomont_avx)
-asmlinkage void tomont_avx(__m256i *r, const __m256i *qdata);
+void tomont_avx(__m256i *r, const __m256i *qdata);
 
 #endif
